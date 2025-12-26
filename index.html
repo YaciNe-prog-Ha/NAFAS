@@ -1058,7 +1058,7 @@
         // Configuration
         const BASE_UNIT_PRICE = 2800; // Price for 3 boxes + 1 spoon
         const PRODUCT_NAME = "أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية)";  
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyM3AMbAGJzDydjOPYUaMQY6k0SQ_49G3IVOmqH_CtZlzxtzdlfVwGHxeQ45W6whl0c/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0ybTke6gJw1UOm7lCyWmVCphcwpD31cuObrTYAVlWEbBJRMyjRAZPq4cwaOZRhgRl/exec';
         
         let currentQuantity = 1;
         let currentColor = 'general';
@@ -1303,7 +1303,7 @@
     document.getElementById('stickyPrice').textContent = totalPrice + ' دج';
     
     // Update package details
-    document.getElementById('packageBoxes').textContent = boxes + ' صندوق';
+    document.getElementById('packageBoxes').textContent = boxes + ' علب';
     document.getElementById('packageSpoons').textContent = spoons + ' ملعقة إلكترونية';
     
     updateBreakdown(packagePrice, boxes, spoons);
@@ -1329,7 +1329,7 @@
     
     document.getElementById('unitPriceBreakdown').textContent = packagePrice + ' دج';
     document.getElementById('quantityBreakdown').textContent = currentQuantity + ' طلبية';
-    document.getElementById('boxesBreakdown').textContent = boxes + ' صندوق';
+    document.getElementById('boxesBreakdown').textContent = boxes + ' علب';
     document.getElementById('spoonsBreakdown').textContent = spoons + ' ملعقة';
     document.getElementById('deliveryBreakdown').textContent = deliveryPrice + ' دج';
     document.getElementById('finalTotalBreakdown').textContent = totalPrice + ' دج';
@@ -1395,6 +1395,7 @@ function updatePromoNotice() {
 
         // Form Submission
 // Form Submission - FIXED VERSION
+// Form Submission - WORKING VERSION WITH NO-CORS
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     console.log('Form submit triggered');
@@ -1429,7 +1430,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
             deliveryPriceData[wilaya].office;
     }
     
-    // Calculate package details (same logic as updatePrice)
+    // Calculate package details
     let packagePrice, boxes, spoons;
     
     if (currentQuantity === 1) {
@@ -1473,57 +1474,58 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     submitButton.textContent = 'جاري الإرسال...';
     
     try {
-                    await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(formData)
-                    });
+        // Using no-cors mode - we won't be able to read the response,
+        // but the data WILL be sent to Google Sheets
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
         
-        // Parse the JSON response
-        const result = await response.json();
-        console.log('Response from Google Script:', result);
+        // With no-cors, we can't read the response, but if no error was thrown,
+        // the request was sent successfully
+        console.log('Request sent successfully');
         
-        if (result.status === 'success') {
-            // Facebook Pixel
-            if (typeof fbq === 'function') {
-                fbq('track', 'Purchase', {
-                    value: totalPrice,
-                    currency: 'DZD',
-                    content_name: PRODUCT_NAME,
-                    content_type: 'product'
-                });
-            }
-            
-            showModal(
-                'success',
-                'تم إرسال طلبك بنجاح!',
-                'شكراً لك! سيتواصل معك فريقنا قريباً لتأكيد الطلب.',
-                `الاسم: ${formData.name}<br>
-                 الهاتف: ${formData.phone}<br>
-                 الولاية: ${formData.wilaya}<br>
-                 البلدية: ${formData.commune}<br>
-                 الكمية: ${formData.quantity}<br>
-                 عدد العلب: ${formData.boxes}<br>
-                 عدد الملاعق: ${formData.spoons}<br>
-                 السعر: ${formData.package_price} دج<br>
-                 توصيل: ${formData.delivery_price} دج<br>
-                 المجموع: ${formData.total_price} دج`
-            );
-            
-            // Reset form
-            this.reset();
-            currentQuantity = 1;
-            updateQuantityDisplay();
-            updatePrice();
-            document.getElementById('priceBreakdownCard').style.display = 'none';
-            
-            // Reset commune select
-            document.getElementById('communeSelect').innerHTML = '<option value="">اختر الولاية أولاً</option>';
-            document.getElementById('communeSelect').disabled = true;
-        } else {
-            throw new Error(result.message || 'Unknown error');
+        // Facebook Pixel
+        if (typeof fbq === 'function') {
+            fbq('track', 'Purchase', {
+                value: totalPrice,
+                currency: 'DZD',
+                content_name: PRODUCT_NAME,
+                content_type: 'product'
+            });
         }
+        
+        // Show success modal
+        showModal(
+            'success',
+            'تم إرسال طلبك بنجاح!',
+            'شكراً لك! سيتواصل معك فريقنا قريباً لتأكيد الطلب.',
+            `الاسم: ${formData.name}<br>
+             الهاتف: ${formData.phone}<br>
+             الولاية: ${formData.wilaya}<br>
+             البلدية: ${formData.commune}<br>
+             الكمية: ${formData.quantity}<br>
+             عدد العلب: ${formData.boxes}<br>
+             عدد الملاعق: ${formData.spoons}<br>
+             السعر: ${formData.package_price} دج<br>
+             توصيل: ${formData.delivery_price} دج<br>
+             المجموع: ${formData.total_price} دج`
+        );
+        
+        // Reset form
+        this.reset();
+        currentQuantity = 1;
+        updateQuantityDisplay();
+        updatePrice();
+        document.getElementById('priceBreakdownCard').style.display = 'none';
+        
+        // Reset commune select
+        document.getElementById('communeSelect').innerHTML = '<option value="">اختر الولاية أولاً</option>';
+        document.getElementById('communeSelect').disabled = true;
         
     } catch (error) {
         console.error('Error:', error);
