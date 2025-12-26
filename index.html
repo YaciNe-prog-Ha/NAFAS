@@ -1058,7 +1058,7 @@
         // Configuration
         const BASE_UNIT_PRICE = 2800; // Price for 3 boxes + 1 spoon
         const PRODUCT_NAME = "أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية)";  
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQXWbBbdWHk6VS8rxqDvprW4nuwLiIK0XpBRqZz3xMdOQYCPjegs4ZGOhusi62_z8/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyM3AMbAGJzDydjOPYUaMQY6k0SQ_49G3IVOmqH_CtZlzxtzdlfVwGHxeQ45W6whl0c/exec';
         
         let currentQuantity = 1;
         let currentColor = 'general';
@@ -1473,14 +1473,12 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     submitButton.textContent = 'جاري الإرسال...';
     
     try {
-        // FIXED: Remove 'no-cors' mode so data is actually sent
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(formData)
+                    });
         
         // Parse the JSON response
         const result = await response.json();
@@ -1533,7 +1531,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
             'error',
             'حدث خطأ!',
             'عذراً، حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.',
-            `يمكنك الاتصال بنا على: 0555555555`
+            `يمكنك الاتصال بنا على: 0549996223`
         );
     } finally {
         submitButton.disabled = false;
