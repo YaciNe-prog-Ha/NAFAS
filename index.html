@@ -10,7 +10,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شرائط الأنف المغناطيسية NAFAS™</title>
+    <title>أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية كهدية)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Facebook Pixel -->
@@ -749,6 +749,16 @@
     line-height: 1.6;
 }
 
+
+.package-details {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes slideInUp {
     from {
         opacity: 0;
@@ -826,16 +836,16 @@
     <!-- Sticky Bar -->
     <div class="sticky-bar" id="stickyBar">
         <div class="sticky-info">
-            <span>شرائط الأنف المغناطيسية NAFAS™</span>
+            <span>أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية)</span>
             <span id="stickyQuantity">الكمية: 1</span>
         </div>
-        <div class="sticky-price" id="stickyPrice">1900 دج</div>
+        <div class="sticky-price" id="stickyPrice">2800 دج</div>
     </div>
 
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">شرائط الأنف المغناطيسية NAFAS™</h1>
+            <h1 class="hero-title">أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية كهدية)</h1>
             <!-- <p class="hero-subtitle">تجربة صوتية استثنائية بتصميم عصري وأداء متميز</p> -->
             <div class="trust-badges">
                 <div class="trust-badge">
@@ -893,14 +903,35 @@
                     </div>
                 </div>
 
-                <div class="promo-notice" id="promoNotice" style="display: none; background: #e8f5e8; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: center;">
+                <!-- <div class="promo-notice" id="promoNotice" style="display: none; background: #e8f5e8; padding: 10px; border-radius: 8px; margin-top: 10px; text-align: center;">
     🎉 عرض خاص! عند شراء أكثر من 1 وحدة، السعر يصبح 1500 دج للقطعة بدلاً من 1900 دج
+</div> -->
+<!-- Package Details -->
+<div class="package-details" style="background: #e8f5e8; padding: 15px; border-radius: 12px; margin-top: 20px; border: 2px solid #27ae60;">
+    <h3 style="color: #27ae60; margin-bottom: 10px; text-align: center;">
+        🎁 تفاصيل العرض
+    </h3>
+    <div style="display: flex; justify-content: center; gap: 20px; text-align: center;">
+        <div>
+            <div style="font-size: 2em;">🫙</div>
+            <div id="packageBoxes" style="font-weight: bold;">3 علب</div>
+        </div>
+        <div>
+            <div style="font-size: 2em;">+</div>
+        </div>
+        <div>
+            <div style="font-size: 2em;">🥄</div>
+            <div id="packageSpoons" style="font-weight: bold;">1 ملعقة إلكترونية</div>
+        </div>
+    </div>
+    <p style="text-align: center; margin-top: 10px; color: #2c3e50; font-size: 0.9em;">
+        كل طلبية تحتوي على 3 علب تنظيم + ملعقة إلكترونية هدية
+    </p>
 </div>
-
                 <!-- Price Display -->
                 <div class="price-display">
                     <div class="price-label">سعر الكمية</div>
-                    <div class="price-amount" id="displayPrice">1900 دج</div>
+                    <div class="price-amount" id="displayPrice">2800 دج</div>
                 </div>
 
                 <!-- Features List -->
@@ -979,32 +1010,32 @@
                     </div>
 
                     <div class="price-breakdown-card" id="priceBreakdownCard" style="display: none;">
-                        <h3>تفاصيل الفاتورة</h3>
-                        <div class="breakdown-row">
-                            <span>سعر الوحدة:</span>
-                            <span id="unitPriceBreakdown">1900 دج</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>الكمية:</span>
-                            <span id="quantityBreakdown">1</span>
-                        </div>
-                        <!-- <div class="breakdown-row">
-                            <span>اللون:</span>
-                            <span id="colorBreakdown">أبيض</span>
-                        </div> -->
-                        <div class="breakdown-row">
-                            <span>تكلفة المنتج:</span>
-                            <span id="productTotalBreakdown">1900 دج</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>تكلفة التوصيل:</span>
-                            <span id="deliveryBreakdown">0 دج</span>
-                        </div>
-                        <div class="breakdown-row">
-                            <span>المجموع:</span>
-                            <span id="finalTotalBreakdown">1900 دج</span>
-                        </div>
-                    </div>
+    <h3>تفاصيل الطلبية</h3>
+    <div class="breakdown-row">
+        <span>سعر الطلبية:</span>
+        <span id="unitPriceBreakdown">2800 دج</span>
+    </div>
+    <div class="breakdown-row">
+        <span>عدد الطلبيات:</span>
+        <span id="quantityBreakdown">1</span>
+    </div>
+    <div class="breakdown-row">
+        <span>عدد الصناديق:</span>
+        <span id="boxesBreakdown">3 صندوق</span>
+    </div>
+    <div class="breakdown-row">
+        <span>عدد الملاعق:</span>
+        <span id="spoonsBreakdown">1 ملعقة إلكترونية</span>
+    </div>
+    <div class="breakdown-row">
+        <span>تكلفة التوصيل:</span>
+        <span id="deliveryBreakdown">0 دج</span>
+    </div>
+    <div class="breakdown-row">
+        <span>المجموع:</span>
+        <span id="finalTotalBreakdown">2800 دج</span>
+    </div>
+</div>
 
                     <button type="submit" class="submit-btn">🛒 أكد طلبك الآن</button>
                 </form>
@@ -1025,9 +1056,8 @@
 
     <script>
         // Configuration
-        const PRODUCT_PRICE = 1900;
-        const PROMO_PRICE = 1500;
-        const CURRENT_MODEL = "شرائط الأنف المغناطيسية NAFAS™";
+        const BASE_UNIT_PRICE = 2800; // Price for 3 boxes + 1 spoon
+        const PRODUCT_NAME = "أداة تنظيم المطبخ (3 صناديق + ملعقة إلكترونية)";  
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXObZ2myhgth134tOOXV4xoAQfWYu5kkKQwap5GHbeBa5dkQPGPIaRDCiwbpwz5CU/exec';
         
         let currentQuantity = 1;
@@ -1038,11 +1068,12 @@
         // Image arrays for different colors
         const productImages = {
             general: [
-                '/images/im1.jpeg',
-                '/images/im2.jpeg',
-                '/images/im3.jpeg',
-                '/images/im4.jpeg',
-                '/images/im5.jpeg'
+                '/images/m1.jpeg',
+                '/images/m2.jpeg',
+                '/images/m3.jpeg',
+                '/images/m4.jpeg',
+                '/images/m5.jpeg',
+                '/images/m6.jpeg'
             ],   
             white: [
                 '/GBP3_blanche_1.jpg',
@@ -1217,14 +1248,13 @@
 
         // Quantity Management
         function changeQuantity(change) {
-            const newQuantity = currentQuantity + change;
-            if (newQuantity >= 1 && newQuantity <= 10) {
-                currentQuantity = newQuantity;
-                updateQuantityDisplay();
-                updatePromoNotice();
-                updatePrice();
-            }
-        }
+    const newQuantity = currentQuantity + change;
+    if (newQuantity >= 1 && newQuantity <= 3) {
+        currentQuantity = newQuantity;
+        updateQuantityDisplay();
+        updatePrice(); // This now handles package calculations
+    }
+}
 
         function updateQuantityDisplay() {
             document.getElementById('quantityDisplay').textContent = currentQuantity;
@@ -1244,21 +1274,46 @@
             deliveryPriceData[wilaya].office;
     }
     
-    // Apply promo pricing for quantity > 1
-    const unitPrice = currentQuantity > 1 ? PROMO_PRICE : PRODUCT_PRICE;
-    const productTotal = unitPrice * currentQuantity;
-    const totalPrice = productTotal + deliveryPrice;
+    // Calculate package prices
+    let packagePrice, boxes, spoons;
+    
+    if (currentQuantity === 1) {
+        packagePrice = 2800;
+        boxes = 3;
+        spoons = 1;
+    } else if (currentQuantity === 2) {
+        packagePrice = 4800;
+        boxes = 6;
+        spoons = 2;
+    } else if (currentQuantity === 3) {
+        packagePrice = 7200;
+        boxes = 9;
+        spoons = 3;
+    } else {
+        // Fallback (shouldn't happen with limited quantities)
+        packagePrice = currentQuantity * 2800;
+        boxes = currentQuantity * 3;
+        spoons = currentQuantity;
+    }
+    
+    const totalPrice = packagePrice + deliveryPrice;
     
     document.getElementById('displayPrice').textContent = totalPrice + ' دج';
     document.getElementById('stickyPrice').textContent = totalPrice + ' دج';
     
-    updateBreakdown();
+    // Update package details
+    document.getElementById('packageBoxes').textContent = boxes + ' صندوق';
+    document.getElementById('packageSpoons').textContent = spoons + ' ملعقة إلكترونية';
+    
+    updateBreakdown(packagePrice, boxes, spoons);
     
     if (wilaya && deliveryType) {
         document.getElementById('priceBreakdownCard').style.display = 'block';
     }
 }
-        function updateBreakdown() {
+
+
+        function updateBreakdown(packagePrice, boxes, spoons) {
     const wilaya = document.getElementById('wilayaSelect').value;
     const deliveryType = document.getElementById('deliveryType').value;
     
@@ -1269,14 +1324,12 @@
             deliveryPriceData[wilaya].office;
     }
     
-    // Apply promo pricing for quantity > 1
-    const unitPrice = currentQuantity > 1 ? PROMO_PRICE : PRODUCT_PRICE;
-    const productTotal = unitPrice * currentQuantity;
-    const totalPrice = productTotal + deliveryPrice;
+    const totalPrice = packagePrice + deliveryPrice;
     
-    document.getElementById('unitPriceBreakdown').textContent = unitPrice + ' دج';
-    document.getElementById('quantityBreakdown').textContent = currentQuantity;
-    document.getElementById('productTotalBreakdown').textContent = productTotal + ' دج';
+    document.getElementById('unitPriceBreakdown').textContent = packagePrice + ' دج';
+    document.getElementById('quantityBreakdown').textContent = currentQuantity + ' طلبية';
+    document.getElementById('boxesBreakdown').textContent = boxes + ' صندوق';
+    document.getElementById('spoonsBreakdown').textContent = spoons + ' ملعقة';
     document.getElementById('deliveryBreakdown').textContent = deliveryPrice + ' دج';
     document.getElementById('finalTotalBreakdown').textContent = totalPrice + ' دج';
 }
