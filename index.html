@@ -1057,8 +1057,8 @@
     <script>
         // Configuration
         const BASE_UNIT_PRICE = 2800; // Price for 3 boxes + 1 spoon
-        const PRODUCT_NAME = "أداة تنظيم المطبخ (3 صناديق + ملعقة إلكترونية)";  
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXObZ2myhgth134tOOXV4xoAQfWYu5kkKQwap5GHbeBa5dkQPGPIaRDCiwbpwz5CU/exec';
+        const PRODUCT_NAME = "أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية)";  
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQXWbBbdWHk6VS8rxqDvprW4nuwLiIK0XpBRqZz3xMdOQYCPjegs4ZGOhusi62_z8/exec';
         
         let currentQuantity = 1;
         let currentColor = 'general';
@@ -1073,7 +1073,8 @@
                 '/images/m3.jpeg',
                 '/images/m4.jpeg',
                 '/images/m5.jpeg',
-                '/images/m6.jpeg'
+                '/images/m6.jpeg',
+                '/images/m7.jpeg'
             ],   
             white: [
                 '/GBP3_blanche_1.jpg',
@@ -1393,77 +1394,152 @@ function updatePromoNotice() {
         document.getElementById('deliveryType').addEventListener('change', updatePrice);
 
         // Form Submission
-        document.getElementById('orderForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const totalPriceText = document.getElementById('finalTotalBreakdown').textContent;
-            const unitPrice = currentQuantity > 1 ? PROMO_PRICE : PRODUCT_PRICE;
-            const productTotal = unitPrice * currentQuantity;
-            const formData = {
-                name: this.first_name.value,
-                phone: this.phone.value,
-                wilaya: this.wilaya.value,
-                commune: this.commune.value,
-                deliveryType: this.delivery_type.value === 'home' ? 'التوصيل للمنزل' : 'التوصيل للمكتب',
-                quantity: currentQuantity,
-                model: CURRENT_MODEL,
-                unitPrice: unitPrice,
-                productTotal: productTotal,
-                deliveryPrice: document.getElementById('deliveryBreakdown').textContent,
-                totalPrice: totalPriceText,
-                notes: this.notes.value || 'لا توجد'
-            };
-            
-            const submitButton = this.querySelector('.submit-btn');
-            submitButton.disabled = true;
-            submitButton.textContent = 'جاري الإرسال...';
-            
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(formData)
-                });
-                
-                // Facebook Pixel
-                const purchaseValue = parseFloat(totalPriceText.replace(' دج', '').trim());
-                if (typeof fbq === 'function') {
-                    fbq('track', 'Purchase', {
-                        value: purchaseValue,
-                        currency: 'DZD',
-                        content_name: CURRENT_MODEL,
-                        content_type: 'product'
-                    });
-                }
-                
-                showModal(
-                    'success',
-                    'تم إرسال طلبك بنجاح!',
-                    'شكراً لك! سيتواصل معك فريقنا قريباً لتأكيد الطلب.',
-                    `الاسم: ${formData.name}<br>الهاتف: ${formData.phone}<br>الولاية: ${formData.wilaya} <br>الكمية: ${formData.quantity}<br>المجموع: ${formData.totalPrice}`
-                );
-                
-                this.reset();
-                currentQuantity = 1;
-                currentColor = 'general';
-                updateQuantityDisplay();
-                updatePrice();
-                document.getElementById('priceBreakdownCard').style.display = 'none';
-                // selectColor('white');
-                
-            } catch (error) {
-                showModal(
-                    'error',
-                    'حدث خطأ!',
-                    'عذراً، حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.',
-                    ''
-                );
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = '🛒 أكد طلبك الآن';
-            }
+// Form Submission - FIXED VERSION
+document.getElementById('orderForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    console.log('Form submit triggered');
+
+    // Validate all required fields
+    const requiredFields = ['first_name', 'phone', 'wilaya', 'commune', 'delivery_type'];
+    let isValid = true;
+    
+    requiredFields.forEach(fieldName => {
+        const field = this.elements[fieldName];
+        if (!field.value.trim()) {
+            isValid = false;
+            field.style.borderColor = 'red';
+        } else {
+            field.style.borderColor = '';
+        }
+    });
+    
+    if (!isValid) {
+        showModal('error', 'بيانات ناقصة', 'يرجى ملء جميع الحقول المطلوبة', '');
+        return;
+    }
+
+    // Get delivery price
+    const wilaya = document.getElementById('wilayaSelect').value;
+    const deliveryType = document.getElementById('deliveryType').value;
+    let deliveryPrice = 0;
+    
+    if (wilaya && deliveryType && deliveryPriceData[wilaya]) {
+        deliveryPrice = deliveryType === 'home' ? 
+            deliveryPriceData[wilaya].home : 
+            deliveryPriceData[wilaya].office;
+    }
+    
+    // Calculate package details (same logic as updatePrice)
+    let packagePrice, boxes, spoons;
+    
+    if (currentQuantity === 1) {
+        packagePrice = 2800;
+        boxes = 3;
+        spoons = 1;
+    } else if (currentQuantity === 2) {
+        packagePrice = 4800;
+        boxes = 6;
+        spoons = 2;
+    } else if (currentQuantity === 3) {
+        packagePrice = 7200;
+        boxes = 9;
+        spoons = 3;
+    }
+    
+    const totalPrice = packagePrice + deliveryPrice;
+    
+    // Prepare form data
+    const formData = {
+        timestamp: new Date().toLocaleString('ar-DZ'),
+        name: this.first_name.value,
+        phone: this.phone.value,
+        wilaya: this.wilaya.value,
+        commune: this.commune.value,
+        delivery_type: this.delivery_type.value === 'home' ? 'التوصيل للمنزل' : 'التوصيل للمكتب',
+        quantity: currentQuantity,
+        product_name: PRODUCT_NAME,
+        boxes: boxes,
+        spoons: spoons,
+        package_price: packagePrice,
+        delivery_price: deliveryPrice,
+        total_price: totalPrice,
+        notes: this.notes.value || 'لا توجد'
+    };
+    
+    console.log('Form data prepared:', formData);
+    
+    const submitButton = this.querySelector('.submit-btn');
+    submitButton.disabled = true;
+    submitButton.textContent = 'جاري الإرسال...';
+    
+    try {
+        // FIXED: Remove 'no-cors' mode so data is actually sent
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
         });
+        
+        // Parse the JSON response
+        const result = await response.json();
+        console.log('Response from Google Script:', result);
+        
+        if (result.status === 'success') {
+            // Facebook Pixel
+            if (typeof fbq === 'function') {
+                fbq('track', 'Purchase', {
+                    value: totalPrice,
+                    currency: 'DZD',
+                    content_name: PRODUCT_NAME,
+                    content_type: 'product'
+                });
+            }
+            
+            showModal(
+                'success',
+                'تم إرسال طلبك بنجاح!',
+                'شكراً لك! سيتواصل معك فريقنا قريباً لتأكيد الطلب.',
+                `الاسم: ${formData.name}<br>
+                 الهاتف: ${formData.phone}<br>
+                 الولاية: ${formData.wilaya}<br>
+                 البلدية: ${formData.commune}<br>
+                 الكمية: ${formData.quantity}<br>
+                 عدد العلب: ${formData.boxes}<br>
+                 عدد الملاعق: ${formData.spoons}<br>
+                 السعر: ${formData.package_price} دج<br>
+                 توصيل: ${formData.delivery_price} دج<br>
+                 المجموع: ${formData.total_price} دج`
+            );
+            
+            // Reset form
+            this.reset();
+            currentQuantity = 1;
+            updateQuantityDisplay();
+            updatePrice();
+            document.getElementById('priceBreakdownCard').style.display = 'none';
+            
+            // Reset commune select
+            document.getElementById('communeSelect').innerHTML = '<option value="">اختر الولاية أولاً</option>';
+            document.getElementById('communeSelect').disabled = true;
+        } else {
+            throw new Error(result.message || 'Unknown error');
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        showModal(
+            'error',
+            'حدث خطأ!',
+            'عذراً، حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.',
+            `يمكنك الاتصال بنا على: 0555555555`
+        );
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = '🛒 أكد طلبك الآن';
+    }
+});
 
         // Modal Functions
         function showModal(type, title, message, details) {
