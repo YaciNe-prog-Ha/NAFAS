@@ -754,6 +754,39 @@
     animation: fadeIn 0.5s ease-out;
 }
 
+/* Add these styles to your CSS */
+.navigation-arrows {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    transform: translateY(-50%);
+    z-index: 4;
+}
+
+.nav-arrow {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.8em;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.nav-arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -836,16 +869,16 @@
     <!-- Sticky Bar -->
     <div class="sticky-bar" id="stickyBar">
         <div class="sticky-info">
-            <span>أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية)</span>
+            <span>3 علب + ملعقة إلكترونية</span>
             <span id="stickyQuantity">الكمية: 1</span>
         </div>
-        <div class="sticky-price" id="stickyPrice">2800 دج</div>
+        <div class="sticky-price" id="stickyPrice">2500 دج</div>
     </div>
 
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية كهدية)</h1>
+            <h1 class="hero-title">3 علب + ملعقة إلكترونية كهدية</h1>
             <!-- <p class="hero-subtitle">تجربة صوتية استثنائية بتصميم عصري وأداء متميز</p> -->
             <div class="trust-badges">
                 <div class="trust-badge">
@@ -870,13 +903,21 @@
             <!-- Product Showcase -->
             <div class="product-showcase">
                 <!-- Image Gallery -->
-                <div class="image-gallery">
-                    <div class="main-image-container">
-                        <img src="/images/img_1.png" alt="DUNTH DU-T244" class="main-image" id="mainImage" 
-                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23ddd%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2224%22%3EDUNTH DU-T244%3C/text%3E%3C/svg%3E'">
-                        <div class="image-indicator" id="imageIndicator"></div>
-                    </div>
-                </div>
+                <!-- Replace the existing main-image-container with this: -->
+<div class="main-image-container">
+    <!-- Navigation Arrows -->
+    <div class="navigation-arrows">
+        <button class="nav-arrow left-arrow" onclick="prevImage()">‹</button>
+        <button class="nav-arrow right-arrow" onclick="nextImage()">›</button>
+    </div>
+    
+    <!-- Main Image -->
+    <img src="/images/m1.jpeg" alt="أداة تنظيم المطبخ" class="main-image" id="mainImage" 
+         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23ddd%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2224%22%3Eصورة المنتج%3C/text%3E%3C/svg%3E'">
+    
+    <!-- Indicator Dots -->
+    <div class="image-indicator" id="imageIndicator"></div>
+</div>
 
                 <!-- Color Selector
                 <div class="color-selector">
@@ -931,7 +972,7 @@
                 <!-- Price Display -->
                 <div class="price-display">
                     <div class="price-label">سعر الكمية</div>
-                    <div class="price-amount" id="displayPrice">2800 دج</div>
+                    <div class="price-amount" id="displayPrice">2500 دج</div>
                 </div>
 
                 <!-- Features List -->
@@ -1013,7 +1054,7 @@
     <h3>تفاصيل الطلبية</h3>
     <div class="breakdown-row">
         <span>سعر الطلبية:</span>
-        <span id="unitPriceBreakdown">2800 دج</span>
+        <span id="unitPriceBreakdown">2500 دج</span>
     </div>
     <div class="breakdown-row">
         <span>عدد الطلبيات:</span>
@@ -1033,7 +1074,7 @@
     </div>
     <div class="breakdown-row">
         <span>المجموع:</span>
-        <span id="finalTotalBreakdown">2800 دج</span>
+        <span id="finalTotalBreakdown">2500 دج</span>
     </div>
 </div>
 
@@ -1056,7 +1097,7 @@
 
     <script>
         // Configuration
-        const BASE_UNIT_PRICE = 2800; // Price for 3 boxes + 1 spoon
+        const BASE_UNIT_PRICE = 2500; // Price for 3 boxes + 1 spoon
         const PRODUCT_NAME = "أداة تنظيم المطبخ (3 علب + ملعقة إلكترونية)";  
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0ybTke6gJw1UOm7lCyWmVCphcwpD31cuObrTYAVlWEbBJRMyjRAZPq4cwaOZRhgRl/exec';
         
@@ -1068,25 +1109,13 @@
         // Image arrays for different colors
         const productImages = {
             general: [
-                '/images/m1.jpeg'
-                // '/images/m2.jpeg',
-                // '/images/m3.jpeg',
-                // '/images/m4.jpeg',
-                // '/images/m5.jpeg',
-                // '/images/m6.jpeg',
-                // '/images/m7.jpeg'
-            ],   
-            white: [
-                '/GBP3_blanche_1.jpg',
-                '/GBP3_blanche.jpg',
-                '/GBP3_blanche_2.jpg',
-                '/GBP3_blanche_3.jpg'
-            ],
-            black: [
-                '/GBP3_noire_4.jpg',
-                '/GBP3_noire_3.jpg',
-                '/GBP3_noire_1.jpg',
-                '/GBP3_noire_2.jpg'
+                 '/images/m1.jpeg',
+                 '/images/m2.jpeg',
+                 '/images/m3.jpeg',
+                 '/images/m4.jpeg',
+                 '/images/m5.jpeg',
+                 '/images/m6.jpeg',
+                 '/images/m7.jpeg'
             ]
         };
 
@@ -1185,25 +1214,68 @@
     };
 
         // Image Auto Slider
-        function startAutoSlider() {
-            stopAutoSlider();
-            currentImageIndex = 0;
+        // function startAutoSlider() {
+        //     stopAutoSlider();
+        //     currentImageIndex = 0;
+        //     updateMainImage();
+        //     updateIndicators();
+            
+        //     autoSlideInterval = setInterval(() => {
+        //         currentImageIndex = (currentImageIndex + 1) % productImages[currentColor].length;
+        //         updateMainImage();
+        //         updateIndicators();
+        //     }, 3000);
+        // }
+
+        // function stopAutoSlider() {
+        //     if (autoSlideInterval) {
+        //         clearInterval(autoSlideInterval);
+        //         autoSlideInterval = null;
+        //     }
+        // }
+
+        // Manual navigation functions
+function nextImage() {
+    const images = productImages[currentColor];
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    updateMainImage();
+    updateIndicators();
+}
+
+function prevImage() {
+    const images = productImages[currentColor];
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    updateMainImage();
+    updateIndicators();
+}
+
+// Update updateMainImage function (keep existing but remove auto-slider reference)
+function updateMainImage() {
+    const mainImage = document.getElementById('mainImage');
+    mainImage.style.opacity = '0';
+    
+    setTimeout(() => {
+        mainImage.src = productImages[currentColor][currentImageIndex];
+        mainImage.style.opacity = '1';
+    }, 300);
+}
+
+// Update updateIndicators function (keep existing)
+function updateIndicators() {
+    const indicatorContainer = document.getElementById('imageIndicator');
+    indicatorContainer.innerHTML = '';
+    
+    productImages[currentColor].forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = `indicator-dot ${index === currentImageIndex ? 'active' : ''}`;
+        dot.onclick = () => {
+            currentImageIndex = index;
             updateMainImage();
             updateIndicators();
-            
-            autoSlideInterval = setInterval(() => {
-                currentImageIndex = (currentImageIndex + 1) % productImages[currentColor].length;
-                updateMainImage();
-                updateIndicators();
-            }, 3000);
-        }
-
-        function stopAutoSlider() {
-            if (autoSlideInterval) {
-                clearInterval(autoSlideInterval);
-                autoSlideInterval = null;
-            }
-        }
+        };
+        indicatorContainer.appendChild(dot);
+    });
+}
 
         function updateMainImage() {
             const mainImage = document.getElementById('mainImage');
@@ -1279,7 +1351,7 @@
     let packagePrice, boxes, spoons;
     
     if (currentQuantity === 1) {
-        packagePrice = 2800;
+        packagePrice = 2500;
         boxes = 3;
         spoons = 1;
     } else if (currentQuantity === 2) {
@@ -1292,7 +1364,7 @@
         spoons = 3;
     } else {
         // Fallback (shouldn't happen with limited quantities)
-        packagePrice = currentQuantity * 2800;
+        packagePrice = currentQuantity * 2500;
         boxes = currentQuantity * 3;
         spoons = currentQuantity;
     }
@@ -1434,7 +1506,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     let packagePrice, boxes, spoons;
     
     if (currentQuantity === 1) {
-        packagePrice = 2800;
+        packagePrice = 2500;
         boxes = 3;
         spoons = 1;
     } else if (currentQuantity === 2) {
@@ -1560,10 +1632,41 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
             document.getElementById('customModal').style.display = 'none';
         }
 
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            initializeWilayaSelect();
-            startAutoSlider();
-            updateQuantityDisplay();
-        });
+        // Add touch/swipe support
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleTouchStart(e) {
+    touchStartX = e.changedTouches[0].screenX;
+}
+
+function handleTouchEnd(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50; // Minimum swipe distance
+    
+    if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left - next image
+        nextImage();
+    }
+    
+    if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right - previous image
+        prevImage();
+    }
+}
+
+// Add event listeners for touch devices
+window.addEventListener('load', function() {
+    initializeWilayaSelect();
+    updateIndicators();
+    updateQuantityDisplay();
+    
+    const mainImage = document.getElementById('mainImage');
+    mainImage.addEventListener('touchstart', handleTouchStart);
+    mainImage.addEventListener('touchend', handleTouchEnd);
+});
     </script>
